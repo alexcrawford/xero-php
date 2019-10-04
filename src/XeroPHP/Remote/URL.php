@@ -22,6 +22,8 @@ class URL
 
     const API_ASSET = 'assets.xro';
 
+    const API_PROJECTS = 'projects.xro';
+
     const OAUTH_REQUEST_TOKEN = 'RequestToken';
 
     const OAUTH_ACCESS_TOKEN = 'AccessToken';
@@ -100,6 +102,10 @@ class URL
                     break;
                 case self::API_FILE:
                     $version = $xero_config['file_version'];
+
+                    break;
+                case self::API_PROJECTS:
+                    $version = $xero_config['projects_version'];
 
                     break;
                 default:

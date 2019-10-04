@@ -1,12 +1,12 @@
 {
-    "name": "calcinai/xero-php",
+    "name": "kickdigital/xero-php",
     "type": "library",
     "description": "A client implementation of the Xero API, with a cleaner OAuth interface and ORM-like abstraction.",
     "homepage": "https://github.com/calcinai/xero-php",
     "license": "MIT",
 
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.1.0",
         "ext-curl": "*",
         "ext-openssl": "*"
     },
@@ -16,6 +16,7 @@
     },
 
     "repositories": [
+        {"type": "composer", "url": "https://packages.kickdigital.co.uk/repo/private/"}
     ],
 
     "autoload": {

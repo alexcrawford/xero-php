@@ -229,6 +229,7 @@ class Response
 
             case Request::CONTENT_TYPE_JSON:
                 $this->parseJSON();
+                return;
 
                 break;
 
@@ -320,6 +321,10 @@ class Response
 
         foreach ($json as $child_index => $root_child) {
             switch ($child_index) {
+                case 'items':
+                    $this->elements = $root_child;
+
+                    break;
                 case 'ErrorNumber':
                     $this->root_error['code'] = $root_child;
 
@@ -342,7 +347,7 @@ class Response
                 default:
                     //Happy to make the assumption that there will only be one
                     //root node with > than 2D children.
-                    if (is_array($root_child)) {
+                    if ( ($child_index != 'pagination') && (is_array($root_child)) ) {
                         foreach ($root_child as $element) {
                             $this->elements[] = $element;
                         }
