@@ -35,8 +35,6 @@ class URL
 
     private $endpoint;
 
-    private $is_oauth;
-
     /**
      * @var string the path
      */
@@ -48,6 +46,7 @@ class URL
      * @param null $api
      *
      * @throws Exception
+     * @throws \XeroPHP\Exception
      */
     public function __construct(Application $app, $endpoint, $api = null)
     {
@@ -62,26 +61,8 @@ class URL
         }
 
         if ($api === null) {
-            //Assume that it's an OAuth endpoint if no API is given.
-            //If this becomes an issue it can just check every time, but it seems a little redundant
-            $oauth_endpoints = $app->getConfig('oauth');
-            $this->is_oauth = false;
-
-            switch ($endpoint) {
-                case self::OAUTH_REQUEST_TOKEN:
-                    $this->path = $oauth_endpoints['request_token_path'];
-                    $this->is_oauth = true;
-
-                    break;
-                case self::OAUTH_ACCESS_TOKEN:
-                    $this->path = $oauth_endpoints['access_token_path'];
-                    $this->is_oauth = true;
-
-                    break;
-                default:
-                    //default to core API for backward compatibility
-                    $api = self::API_CORE;
-            }
+            //default to core API for backward compatibility
+            $api = self::API_CORE;
         }
 
         //This contains API versions and base URLs
@@ -90,7 +71,7 @@ class URL
         $this->endpoint = $endpoint;
 
         //Check here that the URI hasn't been set by one of the OAuth methods and handle as normal
-        if (! isset($this->path)) {
+        if (!isset($this->path)) {
             switch ($api) {
                 case self::API_CORE:
                     $version = $xero_config['core_version'];
@@ -114,11 +95,6 @@ class URL
 
             $this->path = sprintf('%s/%s/%s', $api, $version, $this->endpoint);
         }
-    }
-
-    public function isOAuth()
-    {
-        return $this->is_oauth;
     }
 
     /**

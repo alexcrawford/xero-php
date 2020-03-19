@@ -13,14 +13,6 @@ class EarningsRate extends Remote\Model
      */
 
     /**
-     * This property has been removed from the Xero API.
-     *
-     * @property string DisplayName
-     *
-     * @deprecated
-     */
-
-    /**
      * See Accounts.
      *
      * @property string AccountCode
@@ -83,6 +75,25 @@ class EarningsRate extends Remote\Model
      */
 
     /**
+     * Option AllowanceType for ALLOWANCE EarningsType EarningsRate.
+     * Used to group allowances for reporting to the ATO. Undocumented. Only applicable if EarningsType is ALLOWANCE.
+     *
+     * @property string AllowanceType
+     */
+    const ALLOWANCETYPE_CAR = 'CAR';
+
+    const ALLOWANCETYPE_LAUNDRY = 'LAUNDRY';
+
+    const ALLOWANCETYPE_MEALS = 'MEALS';
+
+    const ALLOWANCETYPE_TRANSPORT = 'TRANSPORT';
+
+    const ALLOWANCETYPE_TRAVEL = 'TRAVEL';
+
+    const ALLOWANCETYPE_OTHER = 'OTHER';
+
+
+    /**
      * Option Amount for FIXEDAMOUNT RateType EarningsRate.
      *
      * @property float Amount
@@ -96,7 +107,7 @@ class EarningsRate extends Remote\Model
     const EARNINGSTYPE_ALLOWANCE = 'ALLOWANCE';
 
     const EARNINGSTYPE_LUMPSUMD = 'LUMPSUMD';
-    
+
     const EARNINGS_TYPE_EMPLOYMENTTERMINATIONPAYMENT = 'EMPLOYMENTTERMINATIONPAYMENT';
 
     const RATETYPE_FIXEDAMOUNT = 'FIXEDAMOUNT';
@@ -168,7 +179,6 @@ class EarningsRate extends Remote\Model
     {
         return [
             'Name' => [true, self::PROPERTY_TYPE_STRING, null, false, false],
-            'DisplayName' => [true, self::PROPERTY_TYPE_STRING, null, false, false],
             'AccountCode' => [true, self::PROPERTY_TYPE_STRING, null, false, false],
             'TypeOfUnits' => [true, self::PROPERTY_TYPE_STRING, null, false, false],
             'IsExemptFromTax' => [true, self::PROPERTY_TYPE_STRING, null, false, false],
@@ -180,6 +190,8 @@ class EarningsRate extends Remote\Model
             'Multiplier' => [false, self::PROPERTY_TYPE_FLOAT, null, false, false],
             'AccrueLeave' => [false, self::PROPERTY_TYPE_FLOAT, null, false, false],
             'Amount' => [false, self::PROPERTY_TYPE_FLOAT, null, false, false],
+            'CurrentRecord' => [false, self::PROPERTY_TYPE_BOOLEAN, null, false, false],
+            'AllowanceType' => [false, self::PROPERTY_TYPE_ENUM, null, false, false]
         ];
     }
 
@@ -205,31 +217,6 @@ class EarningsRate extends Remote\Model
     {
         $this->propertyUpdated('Name', $value);
         $this->_data['Name'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     *
-     * @deprecated
-     */
-    public function getDisplayName()
-    {
-        return $this->_data['DisplayName'];
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return EarningsRate
-     *
-     * @deprecated
-     */
-    public function setDisplayName($value)
-    {
-        $this->propertyUpdated('DisplayName', $value);
-        $this->_data['DisplayName'] = $value;
 
         return $this;
     }
@@ -314,6 +301,27 @@ class EarningsRate extends Remote\Model
     {
         $this->propertyUpdated('IsExemptFromSuper', $value);
         $this->_data['IsExemptFromSuper'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAllowanceType()
+    {
+        return $this->_data['AllowanceType'];
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return EarningsRate
+     */
+    public function setAllowanceType($value)
+    {
+        $this->propertyUpdated('AllowanceType', $value);
+        $this->_data['AllowanceType'] = $value;
 
         return $this;
     }
@@ -461,6 +469,27 @@ class EarningsRate extends Remote\Model
     {
         $this->propertyUpdated('Amount', $value);
         $this->_data['Amount'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCurrentRecord()
+    {
+        return $this->_data['CurrentRecord'];
+    }
+
+    /**
+     * @param bool $value
+     *
+     * @return EarningsRate
+     */
+    public function setCurrentRecord($value)
+    {
+        $this->propertyUpdated('CurrentRecord', $value);
+        $this->_data['CurrentRecord'] = $value;
 
         return $this;
     }
