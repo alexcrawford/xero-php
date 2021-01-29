@@ -107,7 +107,7 @@ class Response
                         'You are not permitted to access this resource without the reporting role or higher privileges')) {
                     throw new ReportPermissionMissingException();
                 }
-                throw new ForbiddenException();
+                throw new ForbiddenException(urldecode($this->response_body), $this->getStatus());
 
             case self::STATUS_NOT_FOUND:
                 throw new NotFoundException();
